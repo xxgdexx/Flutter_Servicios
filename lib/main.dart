@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_final/pantallas/listado_cliente.dart';
-
+// import 'package:flutter_application_final/pantallas/listado_servicio.dart';
+import '../pantallas/listado_servicio.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: listadoVEN_Cliente("Consulta de Servicios")
+        home: listadoVEN_Servicio("Consulta de Servicios")
         //const MyHomePage(title: 'Flutter Demo Home Page'),
         );
   }

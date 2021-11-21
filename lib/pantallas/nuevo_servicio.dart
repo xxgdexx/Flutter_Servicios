@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../models/cliente_model.dart';
-import '../providers/cliente_provider.dart';
+import '../models/servicio_model.dart';
+import '../providers/servicio_provider.dart';
 
-class NuevoVEN_Cliente extends StatefulWidget {
+class NuevoVEN_Servicio extends StatefulWidget {
   String titulo;
-  Cliente oCliente = Cliente();
-  final _provider = VEN_ClienteProvider();
-  int codigoVEN_ClienteSeleccionado = 0;
+  Servicio oServicio = Servicio();
+  final _provider = VEN_ServicioProvider();
+  int codigoVEN_ServicioSeleccionado = 0;
   String mensaje = "";
   bool validacion = false;
-  NuevoVEN_Cliente(this.titulo, this.codigoVEN_ClienteSeleccionado);
+  NuevoVEN_Servicio(this.titulo, this.codigoVEN_ServicioSeleccionado, {Key? key}) : super(key: key);
   @override
-  _NuevoVEN_Cliente createState() => _NuevoVEN_Cliente();
+  _NuevoVEN_Servicio createState() => _NuevoVEN_Servicio();
 }
 
-class _NuevoVEN_Cliente extends State<NuevoVEN_Cliente> {
+class _NuevoVEN_Servicio extends State<NuevoVEN_Servicio> {
   final _tfCodigoCliente = TextEditingController();
   final _tfRazonSocial = TextEditingController();
   final _tfRuc = TextEditingController();
@@ -26,23 +26,23 @@ class _NuevoVEN_Cliente extends State<NuevoVEN_Cliente> {
   @override
   void initState() {
     super.initState();
-    widget.oCliente.inicializar();
-    if (widget.codigoVEN_ClienteSeleccionado > 0) {
+    widget.oServicio.inicializar();
+    if (widget.codigoVEN_ServicioSeleccionado > 0) {
       _listarKeyProvider();
     }
   }
 
   Future<String> _listarKeyProvider() async {
-    Cliente oClienteModel = Cliente();
-    oClienteModel.inicializar();
-    var oClienteModeltmp =
-        await widget._provider.listarKey(widget.codigoVEN_ClienteSeleccionado);
+    Servicio oServicioModel = Servicio();
+    oServicioModel.inicializar();
+    var oServicioModeltmp =
+        await widget._provider.listarKey(widget.codigoVEN_ServicioSeleccionado);
 
     // ignore: avoid_print
-    print(oClienteModeltmp);
+    print(oServicioModeltmp);
     setState(() {
-      widget.oCliente = oClienteModeltmp;
-      if (widget.oCliente.codigoServicio! > 0) {
+      widget.oServicio = oServicioModeltmp;
+      if (widget.oServicio.codigoServicio! > 0) {
         widget.mensaje = "Estas actualizando los datos";
         _mostrarDatos();
       }
@@ -51,23 +51,23 @@ class _NuevoVEN_Cliente extends State<NuevoVEN_Cliente> {
   }
 
   void _mostrarDatos() {
-    _tfCodigoCliente.text = widget.oCliente.codigoServicio.toString();
-    _tfRazonSocial.text = widget.oCliente.nombreCliente.toString();
-    _tfRuc.text = widget.oCliente.numeroOrdenServicio.toString();
-    _tfDireccion.text = widget.oCliente.fechaProgramada.toString();
-    _tfContacto.text = widget.oCliente.linea.toString();
-    _tfTelefono.text = widget.oCliente.estado.toString();
-    _tfAnexo.text = widget.oCliente.observaciones .toString();
+    _tfCodigoCliente.text = widget.oServicio.codigoServicio.toString();
+    _tfRazonSocial.text = widget.oServicio.nombreCliente.toString();
+    _tfRuc.text = widget.oServicio.numeroOrdenServicio.toString();
+    _tfDireccion.text = widget.oServicio.fechaProgramada.toString();
+    _tfContacto.text = widget.oServicio.linea.toString();
+    _tfTelefono.text = widget.oServicio.estado.toString();
+    _tfAnexo.text = widget.oServicio.observaciones .toString();
   }
 
   void _cargarEntidad() {
-    widget.oCliente.codigoServicio = int.parse(_tfCodigoCliente.text);
-    widget.oCliente.nombreCliente = _tfRazonSocial.text;
-    widget.oCliente.numeroOrdenServicio = _tfRuc.text;
-    widget.oCliente.fechaProgramada = _tfDireccion.text;
-    widget.oCliente.linea = _tfContacto.text;
-    widget.oCliente.estado = _tfTelefono.text;
-    widget.oCliente.observaciones = _tfAnexo.text;
+    widget.oServicio.codigoServicio = int.parse(_tfCodigoCliente.text);
+    widget.oServicio.nombreCliente = _tfRazonSocial.text;
+    widget.oServicio.numeroOrdenServicio = _tfRuc.text;
+    widget.oServicio.fechaProgramada = _tfDireccion.text;
+    widget.oServicio.linea = _tfContacto.text;
+    widget.oServicio.estado = _tfTelefono.text;
+    widget.oServicio.observaciones = _tfAnexo.text;
   }
 
   bool _validarRegistro() {
@@ -126,30 +126,30 @@ class _NuevoVEN_Cliente extends State<NuevoVEN_Cliente> {
 
   void _grabarRegistro() {
     if (_validarRegistro()) {
-      _ejecutar_ClienteGrabadoProvider();
+      _ejecutar_ServicioGrabadoProvider();
     }
   }
 
   // ignore: non_constant_identifier_names
-  Future<String> _ejecutar_ClienteGrabadoProvider() async {
+  Future<String> _ejecutar_ServicioGrabadoProvider() async {
     String accion = "N";
-    if (widget.oCliente.codigoServicio! > 0) {
+    if (widget.oServicio.codigoServicio! > 0) {
       accion = "A";
     }
     _cargarEntidad();
-    Cliente oClienteModeltmp = Cliente();
-    oClienteModeltmp.inicializar();
-    var oClienteModeltmpReg =
-        await widget._provider.registraModifica(widget.oCliente, accion);
+    Servicio oServicioModeltmp = Servicio();
+    oServicioModeltmp.inicializar();
+    var oServicioModeltmpReg =
+        await widget._provider.registraModifica(widget.oServicio, accion);
     // ignore: avoid_print
-    print(oClienteModeltmpReg);
+    print(oServicioModeltmpReg);
     setState(() {
-      widget.oCliente = oClienteModeltmpReg;
-      if (widget.oCliente.codigoServicio! > 0) {
+      widget.oServicio = oServicioModeltmpReg;
+      if (widget.oServicio.codigoServicio! > 0) {
         widget.mensaje = "Grabado correctamente";
       }
       // ignore: avoid_print
-      print(widget.oCliente);
+      print(widget.oServicio);
     });
     return "Procesado";
   }
@@ -168,7 +168,7 @@ class _NuevoVEN_Cliente extends State<NuevoVEN_Cliente> {
             Container(
               padding: const EdgeInsets.all(10),
               child: Text(" Código de Servicio:" +
-                  widget.oCliente.codigoServicio.toString()),
+                  widget.oServicio.codigoServicio.toString()),
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),

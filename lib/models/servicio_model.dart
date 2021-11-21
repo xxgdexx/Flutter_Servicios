@@ -1,4 +1,6 @@
-class Cliente {
+import 'package:http/http.dart';
+
+class Servicio {
   int? codigoServicio;
   String? nombreCliente;
   String? numeroOrdenServicio;
@@ -11,20 +13,20 @@ class Cliente {
   String? descripcionError;
   String? mensajeError;
 
-  Cliente(
-      {this.codigoServicio,
-      this.nombreCliente,
-      this.numeroOrdenServicio,
-      this.fechaProgramada,
-      this.linea,
-      this.estado,
-      this.observaciones,
-      this.eliminado,
-      this.codigoError,
-      this.descripcionError,
-      this.mensajeError});
+  Servicio(
+      {this.codigoServicio = 0,
+      this.nombreCliente = "",
+      this.numeroOrdenServicio= "",
+      this.fechaProgramada = "",
+      this.linea = "",
+      this.estado = "",
+      this.observaciones = "",
+      this.eliminado = false,
+      this.codigoError = 0,
+      this.descripcionError = "",
+      this.mensajeError = ""});
 
-  Cliente.fromJson(Map<String, dynamic> json) {
+  Servicio.fromJson(Map<String, dynamic> json) {
     codigoServicio = json['CodigoServicio'];
     nombreCliente = json['NombreCliente'];
     numeroOrdenServicio = json['NumeroOrdenServicio'];

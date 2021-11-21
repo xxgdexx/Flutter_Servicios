@@ -1,48 +1,49 @@
 import 'package:flutter/material.dart';
-import '../models/cliente_model.dart';
-import '../providers/cliente_provider.dart';
-import './nuevo_cliente.dart';
+import '../models/servicio_model.dart';
+import '../providers/servicio_provider.dart';
+import 'nuevo_servicio.dart';
 import 'dart:async' show Future;
 import 'dart:convert';
 import 'package:json_table/json_table.dart';
 
-class listadoVEN_Cliente extends StatefulWidget {
+class listadoVEN_Servicio extends StatefulWidget {
   String titulo;
-  final _provider = new VEN_ClienteProvider();
-  List<Cliente> oListaVEN_Cliente = [];
-  int codigoVEN_ClienteSeleccionado = 0;
-  Cliente oCliente = Cliente();
-  String jSonVEN_Cliente = "";
-  listadoVEN_Cliente(this.titulo);
+  final _provider =  VEN_ServicioProvider();
+  List<Servicio> oListaVEN_Servicio = [];
+  final int codigoVEN_ServicioSeleccionado = 0;
+  Servicio oServicio = Servicio();
+  String jSonVEN_Servicio = "";
+  listadoVEN_Servicio(this.titulo, {Key? key}) : super(key: key);
+  
   @override
-  State<StatefulWidget> createState() => _ListadoVEN_Cliente();
+  State<StatefulWidget> createState() => _ListadoVEN_Servicio();
 }
 
-class _ListadoVEN_Cliente extends State<listadoVEN_Cliente> {
+class _ListadoVEN_Servicio extends State<listadoVEN_Servicio> {
   final _tfRazonSocial = TextEditingController();
   final _tfRuc = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    widget.oCliente.inicializar();
-    widget.jSonVEN_Cliente = '[${widget.oCliente.toModelString()}]';
+    widget.oServicio.inicializar();
+    widget.jSonVEN_Servicio = '[${widget.oServicio.toModelString()}]';
   }
 
   Future<String> _consultarRegistros() async {
-    Cliente pCliente = Cliente();
-    pCliente.inicializar();
-    pCliente.nombreCliente = _tfRazonSocial.text;
-    pCliente.numeroOrdenServicio = _tfRuc.text;
+    Servicio pServicio = Servicio();
+    pServicio.inicializar();
+    pServicio.nombreCliente = _tfRazonSocial.text;
+    pServicio.numeroOrdenServicio = _tfRuc.text;
 
-    var oListaVEN_ClienteTmp = await widget._provider.listar(pCliente);
+    var oListaVEN_ServicioTmp = await widget._provider.listar(pServicio);
     // ignore: avoid_print
-    print(oListaVEN_ClienteTmp);
+    print(oListaVEN_ServicioTmp);
     setState(() {
-      widget.oListaVEN_Cliente = oListaVEN_ClienteTmp;
-      widget.jSonVEN_Cliente = widget._provider.jsonResultado;
-      if (widget.oListaVEN_Cliente.length == 0) {
-        widget.jSonVEN_Cliente = '[${widget.oCliente.toModelString()}]';
+      widget.oListaVEN_Servicio = oListaVEN_ServicioTmp;
+      widget.jSonVEN_Servicio = widget._provider.jsonResultado;
+      if (widget.oListaVEN_Servicio.length == 0) {
+        widget.jSonVEN_Servicio = '[${widget.oServicio.toModelString()}]';
       }
     });
     return "Procesado";
@@ -51,20 +52,20 @@ class _ListadoVEN_Cliente extends State<listadoVEN_Cliente> {
   void _nuevoRegistro() {
     Navigator.of(context)
         .push(MaterialPageRoute<Null>(builder: (BuildContext pContexto) {
-      return NuevoVEN_Cliente("", 0);
+      return NuevoVEN_Servicio("", 0);
     }));
   }
 
-  void _verRegistro(int pCodigoCliente) {
+  void _verRegistro(int pCodigoServicio) {
     Navigator.of(context)
         .push(MaterialPageRoute<Null>(builder: (BuildContext pContexto) {
-      return NuevoVEN_Cliente("", pCodigoCliente);
+      return NuevoVEN_Servicio("", pCodigoServicio);
     }));
   }
 
   @override
   Widget build(BuildContext context) {
-    var json = jsonDecode(widget.jSonVEN_Cliente);
+    var json = jsonDecode(widget.jSonVEN_Servicio);
     return Scaffold(
         appBar: AppBar(
           title: const Text("Consulta de Servicios "),
@@ -99,7 +100,7 @@ class _ListadoVEN_Cliente extends State<listadoVEN_Cliente> {
                   )),
               Text(
                 "Se encontraron " +
-                    widget.oListaVEN_Cliente.length.toString() +
+                    widget.oListaVEN_Servicio.length.toString() +
                     " Servicios",
                 style: const TextStyle(fontSize: 9),
               ),
